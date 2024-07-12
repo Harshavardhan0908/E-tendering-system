@@ -1,0 +1,293 @@
+USE [master]
+GO
+/****** Object:  Database [E_tendering]    Script Date: 02-05-2022 16:32:09 ******/
+CREATE DATABASE [E_tendering]
+ CONTAINMENT = NONE
+ ON  PRIMARY 
+( NAME = N'E_tendering', FILENAME = N'c:\Program Files\Microsoft SQL Server\MSSQL11.MSSQLSERVER\MSSQL\DATA\E_tendering.mdf' , SIZE = 5120KB , MAXSIZE = UNLIMITED, FILEGROWTH = 1024KB )
+ LOG ON 
+( NAME = N'E_tendering_log', FILENAME = N'c:\Program Files\Microsoft SQL Server\MSSQL11.MSSQLSERVER\MSSQL\DATA\E_tendering_log.ldf' , SIZE = 2048KB , MAXSIZE = 2048GB , FILEGROWTH = 10%)
+GO
+ALTER DATABASE [E_tendering] SET COMPATIBILITY_LEVEL = 110
+GO
+IF (1 = FULLTEXTSERVICEPROPERTY('IsFullTextInstalled'))
+begin
+EXEC [E_tendering].[dbo].[sp_fulltext_database] @action = 'enable'
+end
+GO
+ALTER DATABASE [E_tendering] SET ANSI_NULL_DEFAULT OFF 
+GO
+ALTER DATABASE [E_tendering] SET ANSI_NULLS OFF 
+GO
+ALTER DATABASE [E_tendering] SET ANSI_PADDING OFF 
+GO
+ALTER DATABASE [E_tendering] SET ANSI_WARNINGS OFF 
+GO
+ALTER DATABASE [E_tendering] SET ARITHABORT OFF 
+GO
+ALTER DATABASE [E_tendering] SET AUTO_CLOSE OFF 
+GO
+ALTER DATABASE [E_tendering] SET AUTO_CREATE_STATISTICS ON 
+GO
+ALTER DATABASE [E_tendering] SET AUTO_SHRINK OFF 
+GO
+ALTER DATABASE [E_tendering] SET AUTO_UPDATE_STATISTICS ON 
+GO
+ALTER DATABASE [E_tendering] SET CURSOR_CLOSE_ON_COMMIT OFF 
+GO
+ALTER DATABASE [E_tendering] SET CURSOR_DEFAULT  GLOBAL 
+GO
+ALTER DATABASE [E_tendering] SET CONCAT_NULL_YIELDS_NULL OFF 
+GO
+ALTER DATABASE [E_tendering] SET NUMERIC_ROUNDABORT OFF 
+GO
+ALTER DATABASE [E_tendering] SET QUOTED_IDENTIFIER OFF 
+GO
+ALTER DATABASE [E_tendering] SET RECURSIVE_TRIGGERS OFF 
+GO
+ALTER DATABASE [E_tendering] SET  DISABLE_BROKER 
+GO
+ALTER DATABASE [E_tendering] SET AUTO_UPDATE_STATISTICS_ASYNC OFF 
+GO
+ALTER DATABASE [E_tendering] SET DATE_CORRELATION_OPTIMIZATION OFF 
+GO
+ALTER DATABASE [E_tendering] SET TRUSTWORTHY OFF 
+GO
+ALTER DATABASE [E_tendering] SET ALLOW_SNAPSHOT_ISOLATION OFF 
+GO
+ALTER DATABASE [E_tendering] SET PARAMETERIZATION SIMPLE 
+GO
+ALTER DATABASE [E_tendering] SET READ_COMMITTED_SNAPSHOT OFF 
+GO
+ALTER DATABASE [E_tendering] SET HONOR_BROKER_PRIORITY OFF 
+GO
+ALTER DATABASE [E_tendering] SET RECOVERY SIMPLE 
+GO
+ALTER DATABASE [E_tendering] SET  MULTI_USER 
+GO
+ALTER DATABASE [E_tendering] SET PAGE_VERIFY CHECKSUM  
+GO
+ALTER DATABASE [E_tendering] SET DB_CHAINING OFF 
+GO
+ALTER DATABASE [E_tendering] SET FILESTREAM( NON_TRANSACTED_ACCESS = OFF ) 
+GO
+ALTER DATABASE [E_tendering] SET TARGET_RECOVERY_TIME = 0 SECONDS 
+GO
+USE [E_tendering]
+GO
+/****** Object:  Table [dbo].[Admin]    Script Date: 02-05-2022 16:32:10 ******/
+SET ANSI_NULLS ON
+GO
+SET QUOTED_IDENTIFIER ON
+GO
+CREATE TABLE [dbo].[Admin](
+	[ID] [int] IDENTITY(1,1) NOT NULL,
+	[Admin_name] [nvarchar](20) NULL,
+	[Admin_pass] [nvarchar](20) NULL
+) ON [PRIMARY]
+
+GO
+/****** Object:  Table [dbo].[Bidder_master]    Script Date: 02-05-2022 16:32:10 ******/
+SET ANSI_NULLS ON
+GO
+SET QUOTED_IDENTIFIER ON
+GO
+CREATE TABLE [dbo].[Bidder_master](
+	[BID] [int] IDENTITY(1,1) NOT NULL,
+	[BName] [nvarchar](50) NULL,
+	[BEmail] [nvarchar](50) NULL,
+	[Bphone] [nvarchar](50) NULL,
+	[Bpassword] [nvarchar](50) NULL,
+	[BAddress] [nvarchar](50) NULL
+) ON [PRIMARY]
+
+GO
+/****** Object:  Table [dbo].[Bidder_request]    Script Date: 02-05-2022 16:32:10 ******/
+SET ANSI_NULLS ON
+GO
+SET QUOTED_IDENTIFIER ON
+GO
+CREATE TABLE [dbo].[Bidder_request](
+	[RID] [int] IDENTITY(1,1) NOT NULL,
+	[Bid] [int] NULL,
+	[TID] [int] NULL,
+	[Amount] [nvarchar](50) NULL,
+	[RDate] [datetime] NULL,
+	[Statuss] [nvarchar](50) NULL
+) ON [PRIMARY]
+
+GO
+/****** Object:  Table [dbo].[Log_master]    Script Date: 02-05-2022 16:32:10 ******/
+SET ANSI_NULLS ON
+GO
+SET QUOTED_IDENTIFIER ON
+GO
+CREATE TABLE [dbo].[Log_master](
+	[id] [int] IDENTITY(1,1) NOT NULL,
+	[Tender_id] [int] NULL,
+	[T_Hash] [nvarchar](max) NULL,
+	[T_Type] [nvarchar](50) NULL,
+	[T_date] [date] NULL
+) ON [PRIMARY] TEXTIMAGE_ON [PRIMARY]
+
+GO
+/****** Object:  Table [dbo].[Request_status]    Script Date: 02-05-2022 16:32:10 ******/
+SET ANSI_NULLS ON
+GO
+SET QUOTED_IDENTIFIER ON
+GO
+CREATE TABLE [dbo].[Request_status](
+	[RequestID] [nvarchar](50) NULL,
+	[RequestName] [nvarchar](50) NULL
+) ON [PRIMARY]
+
+GO
+/****** Object:  Table [dbo].[Tender_master]    Script Date: 02-05-2022 16:32:10 ******/
+SET ANSI_NULLS ON
+GO
+SET QUOTED_IDENTIFIER ON
+GO
+CREATE TABLE [dbo].[Tender_master](
+	[TID] [int] IDENTITY(1,1) NOT NULL,
+	[RID] [int] NULL,
+	[TotID] [int] NULL,
+	[Refno] [nvarchar](50) NULL,
+	[Lenghtt] [nvarchar](50) NULL,
+	[Weidth] [nvarchar](50) NULL,
+	[lane] [nvarchar](50) NULL,
+	[Tvalue] [nvarchar](50) NULL,
+	[TLocation] [nvarchar](50) NULL,
+	[Document] [nvarchar](max) NULL,
+	[tender_name] [nvarchar](50) NULL,
+	[Tclosingdate] [datetime] NULL,
+	[TImage] [nvarchar](max) NULL,
+	[Discription] [nvarchar](max) NULL,
+	[status] [int] NULL
+) ON [PRIMARY] TEXTIMAGE_ON [PRIMARY]
+
+GO
+/****** Object:  Table [dbo].[Type_of_road]    Script Date: 02-05-2022 16:32:10 ******/
+SET ANSI_NULLS ON
+GO
+SET QUOTED_IDENTIFIER ON
+GO
+CREATE TABLE [dbo].[Type_of_road](
+	[RID] [int] IDENTITY(1,1) NOT NULL,
+	[Road_type] [nvarchar](20) NULL
+) ON [PRIMARY]
+
+GO
+/****** Object:  Table [dbo].[Type_of_Tender]    Script Date: 02-05-2022 16:32:10 ******/
+SET ANSI_NULLS ON
+GO
+SET QUOTED_IDENTIFIER ON
+GO
+CREATE TABLE [dbo].[Type_of_Tender](
+	[TotID] [int] IDENTITY(1,1) NOT NULL,
+	[tender_type] [nvarchar](20) NULL
+) ON [PRIMARY]
+
+GO
+SET IDENTITY_INSERT [dbo].[Admin] ON 
+
+GO
+INSERT [dbo].[Admin] ([ID], [Admin_name], [Admin_pass]) VALUES (1, N'admin', N'admin')
+GO
+SET IDENTITY_INSERT [dbo].[Admin] OFF
+GO
+SET IDENTITY_INSERT [dbo].[Bidder_master] ON 
+
+GO
+INSERT [dbo].[Bidder_master] ([BID], [BName], [BEmail], [Bphone], [Bpassword], [BAddress]) VALUES (1, N'bidder1', N'sagarwarchavan28@gmail.com', N'995623658', N'bidder1', N'mubsaiasu')
+GO
+INSERT [dbo].[Bidder_master] ([BID], [BName], [BEmail], [Bphone], [Bpassword], [BAddress]) VALUES (2, N'bidder2', N'manishghagnf@gmail.com', N'9956236565', N'bidder2', N'sdasd')
+GO
+INSERT [dbo].[Bidder_master] ([BID], [BName], [BEmail], [Bphone], [Bpassword], [BAddress]) VALUES (3, N'bidder3', N'shreyashchavan779@gmail.com', N'9956565666', N'bidder3', N'sdadasda')
+GO
+SET IDENTITY_INSERT [dbo].[Bidder_master] OFF
+GO
+SET IDENTITY_INSERT [dbo].[Bidder_request] ON 
+
+GO
+INSERT [dbo].[Bidder_request] ([RID], [Bid], [TID], [Amount], [RDate], [Statuss]) VALUES (1, 2, 2, N'5000', CAST(0x0000AE890100858C AS DateTime), N'3')
+GO
+INSERT [dbo].[Bidder_request] ([RID], [Bid], [TID], [Amount], [RDate], [Statuss]) VALUES (2, 2, 3, N'5000', CAST(0x0000AE890100B09C AS DateTime), N'2')
+GO
+INSERT [dbo].[Bidder_request] ([RID], [Bid], [TID], [Amount], [RDate], [Statuss]) VALUES (3, 3, 2, N'3000', CAST(0x0000AE890100CACD AS DateTime), N'2')
+GO
+INSERT [dbo].[Bidder_request] ([RID], [Bid], [TID], [Amount], [RDate], [Statuss]) VALUES (4, 3, 3, N'3000', CAST(0x0000AE890100D537 AS DateTime), N'3')
+GO
+INSERT [dbo].[Bidder_request] ([RID], [Bid], [TID], [Amount], [RDate], [Statuss]) VALUES (5, 1, 2, N'6000', CAST(0x0000AE8901016F82 AS DateTime), N'3')
+GO
+INSERT [dbo].[Bidder_request] ([RID], [Bid], [TID], [Amount], [RDate], [Statuss]) VALUES (6, 1, 3, N'6000', CAST(0x0000AE8901017A2F AS DateTime), N'3')
+GO
+SET IDENTITY_INSERT [dbo].[Bidder_request] OFF
+GO
+SET IDENTITY_INSERT [dbo].[Log_master] ON 
+
+GO
+INSERT [dbo].[Log_master] ([id], [Tender_id], [T_Hash], [T_Type], [T_date]) VALUES (1, 0, N'iaLryNVXMYPwSSHaGoDGoOjzu/yTXVkp6KqXsgi5AUk=', N'Registration', CAST(0xE4430B00 AS Date))
+GO
+INSERT [dbo].[Log_master] ([id], [Tender_id], [T_Hash], [T_Type], [T_date]) VALUES (2, 2, N'R+bATmdTwY7UkgYidzzAMuGic3839TpCudNNOkYIYdE=', N'Registration', CAST(0xE4430B00 AS Date))
+GO
+INSERT [dbo].[Log_master] ([id], [Tender_id], [T_Hash], [T_Type], [T_date]) VALUES (3, 3, N'3dU+7+bhdvDrR6uZOfRkmuer0k5tBD27DnWGVOpwrbU=', N'Registration', CAST(0xE4430B00 AS Date))
+GO
+INSERT [dbo].[Log_master] ([id], [Tender_id], [T_Hash], [T_Type], [T_date]) VALUES (4, 2, N'BL3W3N3al1nogEV5V10uVYMWz99+ocYEG7SC2ZA5Zgg=', N'Requested', CAST(0xE4430B00 AS Date))
+GO
+INSERT [dbo].[Log_master] ([id], [Tender_id], [T_Hash], [T_Type], [T_date]) VALUES (5, 3, N'd5oFhqcf/+9uoW+6yMWkew0VfnTJ3A0E9ZuHlgYX4cc=', N'Requested', CAST(0xE4430B00 AS Date))
+GO
+INSERT [dbo].[Log_master] ([id], [Tender_id], [T_Hash], [T_Type], [T_date]) VALUES (6, 2, N'eyPAEktwaqT3R+4z1D8mbzRJVvgZ2l0Rl0tfNbvkjDQ=', N'Requested', CAST(0xE4430B00 AS Date))
+GO
+INSERT [dbo].[Log_master] ([id], [Tender_id], [T_Hash], [T_Type], [T_date]) VALUES (7, 3, N'3IMi/+hL9Jn59+BFTDjDwlHJ0m/htOhMmtKhVOtkA/s=', N'Requested', CAST(0xE4430B00 AS Date))
+GO
+INSERT [dbo].[Log_master] ([id], [Tender_id], [T_Hash], [T_Type], [T_date]) VALUES (8, 2, N'wHHo4FDb0kXfhWJ0zGmnJ3BeaW8osWfD+/M0s6tJTu0=', N'Requested', CAST(0xE4430B00 AS Date))
+GO
+INSERT [dbo].[Log_master] ([id], [Tender_id], [T_Hash], [T_Type], [T_date]) VALUES (9, 3, N'/V6KqQDIP1TLzIfG3pcowVPUDD1ZDcdEnFsFugrN51U=', N'Requested', CAST(0xE4430B00 AS Date))
+GO
+INSERT [dbo].[Log_master] ([id], [Tender_id], [T_Hash], [T_Type], [T_date]) VALUES (10, 10, N'wzp5D2UqqOZskAO4kdazKJdwXVGm+KIFSge5aH65BLg=', N'completed', CAST(0xE4430B00 AS Date))
+GO
+INSERT [dbo].[Log_master] ([id], [Tender_id], [T_Hash], [T_Type], [T_date]) VALUES (11, 9, N'4JiCWKQvDXt2KbPJt7hHH8cPOqfKew/zJrCMsoM3E6g=', N'completed', CAST(0xE4430B00 AS Date))
+GO
+SET IDENTITY_INSERT [dbo].[Log_master] OFF
+GO
+INSERT [dbo].[Request_status] ([RequestID], [RequestName]) VALUES (N'1', N'Pending')
+GO
+INSERT [dbo].[Request_status] ([RequestID], [RequestName]) VALUES (N'2', N'Accepted')
+GO
+INSERT [dbo].[Request_status] ([RequestID], [RequestName]) VALUES (N'3', N'Rejected')
+GO
+SET IDENTITY_INSERT [dbo].[Tender_master] ON 
+
+GO
+INSERT [dbo].[Tender_master] ([TID], [RID], [TotID], [Refno], [Lenghtt], [Weidth], [lane], [Tvalue], [TLocation], [Document], [tender_name], [Tclosingdate], [TImage], [Discription], [status]) VALUES (1, 3, 1, N'443', N'123', N'443', N'2', N'3334', N'mumbai', N'2008-He-ieee.pdf', N'tender1', CAST(0x0000AE9400000000 AS DateTime), N'test1.jpg', N'this is tender 1', 0)
+GO
+INSERT [dbo].[Tender_master] ([TID], [RID], [TotID], [Refno], [Lenghtt], [Weidth], [lane], [Tvalue], [TLocation], [Document], [tender_name], [Tclosingdate], [TImage], [Discription], [status]) VALUES (2, 2, 1, N'7777', N'155', N'425', N'2', N'544', N'mumbai', N'2008-He-ieee.pdf', N'tender2', CAST(0x0000AE9400000000 AS DateTime), N'test2.jpg', N'this is tender 2', 1)
+GO
+INSERT [dbo].[Tender_master] ([TID], [RID], [TotID], [Refno], [Lenghtt], [Weidth], [lane], [Tvalue], [TLocation], [Document], [tender_name], [Tclosingdate], [TImage], [Discription], [status]) VALUES (3, 1, 1, N'325', N'155', N'425', N'3', N'5646', N'mumbai', N'2008-He-ieee.pdf', N'tenser3', CAST(0x0000AE9400000000 AS DateTime), N'test3.jpg', N'this is tnser 3', 1)
+GO
+SET IDENTITY_INSERT [dbo].[Tender_master] OFF
+GO
+SET IDENTITY_INSERT [dbo].[Type_of_road] ON 
+
+GO
+INSERT [dbo].[Type_of_road] ([RID], [Road_type]) VALUES (1, N'EARTHAN ROAD')
+GO
+INSERT [dbo].[Type_of_road] ([RID], [Road_type]) VALUES (2, N'GRAVEL ROAD')
+GO
+INSERT [dbo].[Type_of_road] ([RID], [Road_type]) VALUES (3, N'CONCRETE ROAD')
+GO
+INSERT [dbo].[Type_of_road] ([RID], [Road_type]) VALUES (4, N'BITUMENOUS ROAD')
+GO
+SET IDENTITY_INSERT [dbo].[Type_of_road] OFF
+GO
+SET IDENTITY_INSERT [dbo].[Type_of_Tender] ON 
+
+GO
+INSERT [dbo].[Type_of_Tender] ([TotID], [tender_type]) VALUES (1, N'ROAD CONSTRUCTION')
+GO
+SET IDENTITY_INSERT [dbo].[Type_of_Tender] OFF
+GO
+USE [master]
+GO
+ALTER DATABASE [E_tendering] SET  READ_WRITE 
+GO
